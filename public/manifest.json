@@ -1,0 +1,41 @@
+{
+    "theme_color": "#8244b4",
+    "background_color": "#222222",
+    "display": "standalone",
+    "scope": "/",
+    "start_url": "./?homescreen=true",
+    "name": "Alurakut",
+    "short_name": "Alurakut",
+    "description":"Social media for developers.",
+    "icons": [
+        {
+            "src": "/icons/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+
+        },
+        {
+            "src": "/icons/icon-256x256.png",
+            "sizes": "256x256",
+            "type": "image/png",
+            "purpose": "any maskable"
+
+        },
+        {
+            "src": "/icons/icon-384x384.png",
+            "sizes": "384x384",
+            "type": "image/png",
+            "purpose": "any maskable"
+
+        },
+        {
+            "src": "/icons/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+
+        }
+    ],
+    "splash_pages": null
+}
