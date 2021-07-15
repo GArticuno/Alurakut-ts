@@ -1,6 +1,8 @@
 import type { AppProps } from 'next/app'
 
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
+
+import { UserContextProvider } from '../context/UserContext';
 import { AlurakutStyles } from '../lib/AlurakutCommons';
 
 const GlobalStyle = createGlobalStyle`
@@ -12,7 +14,7 @@ const GlobalStyle = createGlobalStyle`
   }
   body {
     font-family: sans-serif;
-    background-color: #D9E6F6;
+    background-color: #ffd6d6;
   }
   #__next {
     display: flex;
@@ -38,7 +40,9 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       <GlobalStyle />
       <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
+        <UserContextProvider>
+          <Component {...pageProps} />
+        </UserContextProvider>
       </ThemeProvider>
     </>
   )

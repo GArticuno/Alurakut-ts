@@ -1,10 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { FormEvent, useState } from 'react';
-import Image from 'next/image';
+import React, { FormEvent } from 'react';
 
 import MainGrid from '../components/MainGrid';
 import Box from '../components/Box';
 import ProfileRelationsBoxWrapper from '../components/ProfileRelations';
+
+import { Community } from '../types';
+
+import { useUser } from '../context/UserContext';
 
 import { 
   AlurakutMenu, 
@@ -12,52 +15,56 @@ import {
   OrkutNostalgicIconSet 
 } from '../lib/AlurakutCommons';
 
+function ProfileSidebar() {
+  const { profile } = useUser();
 
-type Props = {
-  githubUser: string;
-}
-
-type Community = {
-  id: string,
-  title: string,
-  image: string
-}
-
-function ProfileSidebar(props : Props) {
   return (
     <Box as="aside">
-      <img src={`https://github.com/${props.githubUser}.png`} alt='Avatar' style={{borderRadius: '8px'}}/>
+      <img src={profile?.avatar_url} alt='Avatar' style={{borderRadius: '8px'}}/>
       <hr />
       <p>
-        <a className="boxLink" href={`https://github.com/${props.githubUser}`}>
-          @{props.githubUser}
+        <a className="boxLink" href={profile?.html_url} target='_blank' rel="noreferrer">
+          @{profile?.login}
         </a>
       </p>
       <hr />
-
       <AlurakutProfileSidebarMenuDefault />
     </Box>
   )
 }
 
+function ProfileRelationsBox({title}: { title: string }) {
+  const { following } = useUser();
+  return (
+    <ProfileRelationsBoxWrapper>
+      <h2 className="smallTitle">
+        {title} ({following.length})
+      </h2>
+      <ul>
+        {following.slice(0,6).map((follow) => {
+          return (
+            <li key={follow.id}>
+              <a href={follow.html_url} target='_blank' rel="noreferrer">
+                <img src={follow.avatar_url} alt={follow.login} />
+                <span>{follow.login}</span>
+              </a>
+            </li>
+          )
+        })}
+      </ul>
+    </ProfileRelationsBoxWrapper>
+  )
+}
+
 export default function Home() {
-  const [user, setUser] = useState('omariosouto');
-  const [comunidades, setComunidades] = useState<Community[]>([{
-    id: '12802378123789378912789789123896123', 
-    title: 'Eu odeio acordar cedo',
-    image: 'https://alurakut.vercel.app/capa-comunidade-01.jpg'
-  }]);
-
-
-  const pessoasFavoritas = [
-    'juunegreiros',
-    'omariosouto',
-    'peas',
-    'rafaballerini',
-    'marcobrunodev',
-    'felipefialho',
-  ]
-
+  const {
+    user,
+    followers, 
+    communities,
+    
+    setCommunities 
+  } = useUser();
+  
   function handleCriaComunidade(event: FormEvent){
     event.preventDefault();
     const form: HTMLFormElement | null = document.querySelector('#communityForm');
@@ -67,24 +74,25 @@ export default function Home() {
       console.log('Campo: ', dataForm.get('title'));
       console.log('Campo: ', dataForm.get('image'));
 
-      const comunidade: Community = {
+      const community: Community = {
         id: new Date().toISOString(),
         title: dataForm.get('title')?.toString() ?? '',
         image: dataForm.get('image')?.toString() ?? '',
       }
-      const comunidadesAtualizadas: Community[] = [...comunidades, comunidade];
-      setComunidades(comunidadesAtualizadas)
+      const comunidadesAtualizadas: Community[] = [...communities, community];
+      setCommunities(comunidadesAtualizadas)
     }else {
       return;
     }
   }
+
 
   return (
     <>
       <AlurakutMenu githubUser={user} />
       <MainGrid>
         <div className="profileArea" style={{ gridArea: 'profileArea' }}>
-          <ProfileSidebar githubUser={user} />
+          <ProfileSidebar />
         </div>
         <div className="welcomeArea" style={{ gridArea: 'welcomeArea' }}>
           <Box>
@@ -121,12 +129,13 @@ export default function Home() {
           </Box>
         </div>
         <div className="profileRelationsArea" style={{ gridArea: 'profileRelationsArea' }}>
+          <ProfileRelationsBox title="Seguindo" />
           <ProfileRelationsBoxWrapper>
             <h2 className="smallTitle">
-              Comunidades ({comunidades.length})
+              Comunidades ({communities.length})
             </h2>
             <ul>
-              {comunidades.map((community) => {
+              {communities.map((community) => {
                 return (
                   <li key={community.id}>
                     <a href={`/users/${community.title}`}>
@@ -140,16 +149,16 @@ export default function Home() {
           </ProfileRelationsBoxWrapper>
           <ProfileRelationsBoxWrapper>
             <h2 className="smallTitle">
-              Pessoas da comunidade ({pessoasFavoritas.length})
+              Seguidores ({followers.length})
             </h2>
 
             <ul>
-              {pessoasFavoritas.map((person) => {
+              {followers.slice(0,6).map((follower) => {
                 return (
-                  <li key={person}>
-                    <a href={`/users/${person}`}>
-                      <img src={`https://github.com/${person}.png`} alt={`${person} avatar`}/>
-                      <span>{person}</span>
+                  <li key={follower.id}>
+                    <a href={follower.url} target='_blank' rel="noreferrer">
+                      <img src={follower.avatar_url} alt={follower.login}/>
+                      <span>{follower.login}</span>
                     </a>
                   </li>
                 )
