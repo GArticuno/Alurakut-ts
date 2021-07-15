@@ -39,6 +39,12 @@ export default class Mydocument extends Document {
           <link rel="preconnect" href="https://fonts.gstatic.com"/>
           <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet"/>
           <link rel="icon" href="/favicon.ico" />
+
+          <link rel='apple-touch-icon' href='/icons/icon-192x192.png' />
+          <link rel='manifest' href='/manifest.json' />
+          <link rel='shortcut icon' href='/favicon.ico' />
+          <meta name='theme-color' content='#fb2943' />
+
 	        {this.props.styles}
         </Head>
         <body>

@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { FormEvent } from 'react';
+import Head from 'next/head';
 
 import MainGrid from '../components/MainGrid';
 import Box from '../components/Box';
@@ -89,6 +90,9 @@ export default function Home() {
 
   return (
     <>
+      <Head>
+        <title>Alurakut</title>
+      </Head>
       <AlurakutMenu githubUser={user} />
       <MainGrid>
         <div className="profileArea" style={{ gridArea: 'profileArea' }}>

@@ -4,11 +4,13 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import NextLink from 'next/link';
 
+import { AlurakutMenuProps, LinkProps } from '../types';
+
 const BASE_URL = 'http://alurakut.vercel.app/';
 const v = '1';
 
 
-function Link({ href, children, ...props }) {
+function Link({ href, children, ...props }: LinkProps) {
   return (
     <NextLink href={href} passHref>
       <a {...props}>
@@ -22,7 +24,7 @@ function Link({ href, children, ...props }) {
 // Menu
 // ================================================================================================================
 
-AlurakutMenu.Wrapper = styled.header`
+AlurakutMenu.Wrapper = styled.header<{isMenuOpen: boolean}>`
   width: 100%;
   background-color: #fb2943;
 
@@ -139,7 +141,7 @@ AlurakutMenu.Logo = styled.img`
   height: 34px;
 `;
 
-export function AlurakutMenu({ githubUser }) {
+export function AlurakutMenu({ githubUser }: AlurakutMenuProps) {
   const [isMenuOpen, setMenuState] = React.useState(false);
   return (
     <AlurakutMenu.Wrapper isMenuOpen={isMenuOpen}>
@@ -173,7 +175,7 @@ export function AlurakutMenu({ githubUser }) {
   )
 }
 
-function AlurakutMenuProfileSidebar({ githubUser }) {
+function AlurakutMenuProfileSidebar({ githubUser }: AlurakutMenuProps) {
   return (
     <div className="alurakutMenuProfileSidebar">
       <div>
@@ -290,16 +292,16 @@ OrkutNostalgicIconSet.List = styled.ul`
   }
 `;
 
-export function OrkutNostalgicIconSet(props) {
+export function OrkutNostalgicIconSet() {
   return (
     <OrkutNostalgicIconSet.List>
       {[
-        { name: 'Recados', slug: 'recados', icon: 'book' },
-        { name: 'Fotos', slug: 'fotos', icon: 'camera' },
-        { name: 'Videos', slug: 'videos', icon: 'video-camera' },
-        { name: 'Fãs', slug: 'fas', icon: 'star' },
-        { name: 'Mensagens', slug: 'mensagens', icon: 'email' },
-      ].map(({ name, slug, icon }) => (
+        { name: 'Recados', slug: 'recados', icon: 'book', total: 15 },
+        { name: 'Fotos', slug: 'fotos', icon: 'camera', total: 20 },
+        { name: 'Videos', slug: 'videos', icon: 'video-camera', total: 5 },
+        { name: 'Fãs', slug: 'fas', icon: 'star', total: 138 },
+        { name: 'Mensagens', slug: 'mensagens', icon: 'email', total: 354 },
+      ].map(({ name, slug, icon, total }) => (
         <li key={`orkut__icon_set__${slug}`}>
           <span style={{ gridArea: 'title' }} className="OrkutNostalgicIconSet__title">
             {name}
@@ -311,16 +313,15 @@ export function OrkutNostalgicIconSet(props) {
               src={`https://alurakut.vercel.app/icons/${icon}.svg`}
               alt='Orkut icon'
             />
-            {props[slug] ? props[slug] : 50}
+            {total}
           </span>
         </li>
       ))}
       {[
-        { name: 'Confiável', slug: 'confiavel', icon: 'smile' },
-        { name: 'Legal', slug: 'legal', icon: 'cool' },
-        { name: 'Sexy', slug: 'sexy', icon: 'heart' },
-      ].map(({ name, slug, icon }) => {
-        const total = props[slug] ? props[slug] : 3;
+        { name: 'Confiável', slug: 'confiavel', icon: 'smile', total: 3 },
+        { name: 'Legal', slug: 'legal', icon: 'cool', total: 2 },
+        { name: 'Sexy', slug: 'sexy', icon: 'heart', total: 2 },
+      ].map(({ name, slug, icon, total }) => {
         return (
           <li key={`orkut__icon_set__${slug}`}>
             <span className="OrkutNostalgicIconSet__title">

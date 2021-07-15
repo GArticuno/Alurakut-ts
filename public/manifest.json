@@ -1,7 +1,8 @@
 {
-    "theme_color": "#8244b4",
-    "background_color": "#222222",
+    "theme_color": "#fb2943",
+    "background_color": "#ffffff",
     "display": "standalone",
+    "orientation": "portrait",
     "scope": "/",
     "start_url": "./?homescreen=true",
     "name": "Alurakut",
