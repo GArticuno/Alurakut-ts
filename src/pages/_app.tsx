@@ -1,20 +1,36 @@
 import type { AppProps } from 'next/app'
-
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
+import {Cookies } from 'react-cookie-consent';
 
 import { UserContextProvider } from '../context/UserContext';
+
 import { AlurakutStyles } from '../lib/AlurakutCommons';
 
 const GlobalStyle = createGlobalStyle`
-  /* Reset CSS (Necolas Reset CSS <3) */
+  :root {
+    --backgroundPrimary: #ffd6d6;
+    --backgroundSecondary: #ffeded;
+    --backgroundTertiary: #FFFFFF;
+    --backgroundQuarternary: #ffa5a5;
+    --colorPrimary: #a00808;
+    --colorSecondary: #fb2943;
+    --colorTertiary: #f8142f;
+    --colorQuarternary: #FF6287;
+    --textPrimaryColor: #333333;
+    --textSecondaryColor: #FFFFFF;
+    --textTertiaryColor: #5A5A5A;
+    --textQuarternaryColor: #C5C6CA;
+    --commonRadius: 8px;
+  }
+
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
   }
   body {
-    font-family: sans-serif;
-    background-color: #ffd6d6;
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient( #fafafa 0%,  #FF6287 100%);;
   }
   #__next {
     display: flex;
@@ -31,7 +47,7 @@ const GlobalStyle = createGlobalStyle`
 
 const theme = {
   colors: {
-    primary: 'red',
+    primary: '#fb2943',
   },
 }
 
@@ -40,7 +56,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       <GlobalStyle />
       <ThemeProvider theme={theme}>
-        <UserContextProvider>
+        <UserContextProvider githubUser={Cookies.get('user')} Cookies={Boolean(Cookies.get('Cookies'))}>
           <Component {...pageProps} />
         </UserContextProvider>
       </ThemeProvider>

@@ -1,14 +1,23 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 /* eslint-disable @next/next/no-img-element */
-import React from 'react';
+import React, { AnchorHTMLAttributes, ReactNode } from 'react';
 import styled, { css } from 'styled-components';
 import NextLink from 'next/link';
 
-import { AlurakutMenuProps, LinkProps } from '../types';
+import { useUser } from '../context/UserContext';
 
 const BASE_URL = 'http://alurakut.vercel.app/';
 const v = '1';
 
+type LinkProps = {
+  children: ReactNode,
+  href: string,
+  props?: AnchorHTMLAttributes<HTMLAnchorElement>
+}
+
+type AluraMenuProps = {
+  githubUser: string
+}
 
 function Link({ href, children, ...props }: LinkProps) {
   return (
@@ -27,7 +36,11 @@ function Link({ href, children, ...props }: LinkProps) {
 AlurakutMenu.Wrapper = styled.header<{isMenuOpen: boolean}>`
   width: 100%;
   background-color: #fb2943;
-
+  position: sticky; 
+  top:0; 
+  width:100%;
+  z-index: 2;
+  
   .alurakutMenuProfileSidebar {
     background: white;
     position: fixed;
@@ -41,6 +54,7 @@ AlurakutMenu.Wrapper = styled.header<{isMenuOpen: boolean}>`
     pointer-events: ${({ isMenuOpen }) => isMenuOpen ? 'all' : 'none'};
     opacity: ${({ isMenuOpen }) => isMenuOpen ? '1' : '0'};
     transform: ${({ isMenuOpen }) => isMenuOpen ? 'translateY(0)' : 'translateY(calc(-100% - 48px))'};
+    
     @media(min-width: 860px) {
       display: none;
     }
@@ -141,8 +155,9 @@ AlurakutMenu.Logo = styled.img`
   height: 34px;
 `;
 
-export function AlurakutMenu({ githubUser }: AlurakutMenuProps) {
+export function AlurakutMenu() {
   const [isMenuOpen, setMenuState] = React.useState(false);
+  const { user, signOut } = useUser();
   return (
     <AlurakutMenu.Wrapper isMenuOpen={isMenuOpen}>
       <div className="container">
@@ -157,12 +172,12 @@ export function AlurakutMenu({ githubUser }: AlurakutMenuProps) {
         </nav>
 
         <nav>
-          <a href={`/logout`}>
-            Sair
-          </a>
           <div>
             <input placeholder="Pesquisar no Orkut" />
           </div>
+          <a onClick={signOut}>
+            Sair
+          </a>
         </nav>
 
         <button onClick={() => setMenuState(!isMenuOpen)}>
@@ -170,12 +185,12 @@ export function AlurakutMenu({ githubUser }: AlurakutMenuProps) {
           {!isMenuOpen && <img src={`${BASE_URL}/icons/menu-closed.svg?v=${v}`} alt='Menu close'/>}
         </button>
       </div>
-      <AlurakutMenuProfileSidebar githubUser={githubUser} />
+      <AlurakutMenuProfileSidebar githubUser={user} />
     </AlurakutMenu.Wrapper>
   )
 }
 
-function AlurakutMenuProfileSidebar({ githubUser }: AlurakutMenuProps) {
+function AlurakutMenuProfileSidebar({ githubUser }: AluraMenuProps) {
   return (
     <div className="alurakutMenuProfileSidebar">
       <div>
@@ -220,10 +235,11 @@ AlurakutProfileSidebarMenuDefault.Wrapper = styled.div`
 `;
 
 export function AlurakutProfileSidebarMenuDefault() {
+  const { signOut } = useUser();
   return (
     <AlurakutProfileSidebarMenuDefault.Wrapper>
       <nav>
-        <a href="/">
+        <a href="https://github.com/GArticuno" target='_blank' rel="noreferrer">
           <img src={`${BASE_URL}/icons/user.svg`} alt='User'/>
             Perfil
           </a>
@@ -242,11 +258,11 @@ export function AlurakutProfileSidebarMenuDefault() {
       </nav>
       <hr />
       <nav>
-        <a href="/">
+        <a href="https://github.com/trending" target='_blank' rel="noreferrer">
           <img src={`${BASE_URL}/icons/plus.svg`} alt='Plus'/>
             GitHub Trends
           </a>
-        <a href="/logout">
+        <a href="/logout" onClick={signOut}>
           <img src={`${BASE_URL}//icons/logout.svg`} alt='Logout'/>
             Sair
           </a>
@@ -351,22 +367,6 @@ export function OrkutNostalgicIconSet() {
 // ================================================================================================================
 
 const AlurakutLoginScreen = css`
-  :root {
-    --backgroundPrimary: #ffd6d6;
-    --backgroundSecondary: #ffeded;
-    --backgroundTertiary: #FFFFFF;
-    --backgroundQuarternary: #ffa5a5;
-    --colorPrimary: #a00808;
-    --colorSecondary: #fb2943;
-    --colorTertiary: #f8142f;
-    --colorQuarternary: #D81D99;
-    --textPrimaryColor: #333333;
-    --textSecondaryColor: #FFFFFF;
-    --textTertiaryColor: #5A5A5A;
-    --textQuarternaryColor: #C5C6CA;
-    --commonRadius: 8px;
-  }
-
 
   .loginScreen {
     padding: 16px;
@@ -379,6 +379,7 @@ const AlurakutLoginScreen = css`
       "logoArea"
       "formArea"
       "footerArea";
+    
     @media(min-width: 860px) {
       grid-template-columns: 2fr 1fr;
       grid-template-areas: 
@@ -386,6 +387,7 @@ const AlurakutLoginScreen = css`
               "logoArea formArea"
               "footerArea footerArea";
     }
+
     .logoArea {
       grid-area: logoArea;
       background-color: var(--backgroundTertiary);
@@ -397,30 +399,52 @@ const AlurakutLoginScreen = css`
       flex-wrap: wrap;
       justify-content: center;
       align-items: center;
+      position: relative;
       min-height: 263px;
+
       @media(min-width: 860px) {
         min-height: 368px;
       }
+
       p {
         font-size: 12px;
         line-height: 1.2;
         &:not(:last-child) {
           margin-bottom: 12px;
         }
+
         strong {
           color: var(--colorQuarternary);
         }
       }
+
       img {
-        max-height: 45px;
-        margin-bottom: 36px;
+        &#alurakutLogo {
+          max-height: 2.8rem;
+          margin-bottom: 36px;
+        }
+
+        &#artBacground {
+          position: absolute;
+          z-index: 0;
+          height: 21rem;
+          left: 30px;
+          opacity: .3;
+
+          @media(max-width: 860px){
+            height: 15rem;
+          }
+        }
+
       }
     }
+
     .formArea {
       grid-area: formArea;
       display: flex;
       flex-wrap: wrap;
       flex-direction: column;
+
       .box {
         display: flex;
         flex-direction: column;
@@ -428,56 +452,64 @@ const AlurakutLoginScreen = css`
         justify-content: center;
         text-align: center;
         padding: var(--gutter);
-        padding-left: 50px;
-        padding-right: 50px;
+        padding-left: 3.125rem;
+        padding-right: 3.125rem;
         background-color: var(--backgroundSecondary);
         border-radius: var(--commonRadius);
         flex: 1;
+
         &:not(:last-child) {
           margin-bottom: var(--gap);
         }
+
         &:first-child {
           min-height: 224px;
           @media(min-width: 860px) {
             min-height: 282px;
           }
         }
+
         p {
           font-size: 14px;
         }
+
         a {
           text-decoration: none;
           color: var(--colorPrimary);
+          cursor: pointer;
         }
-        input {
-          width: 100%;
-          display: block;
-          border: 1px solid var(--textQuarternaryColor);
-          padding: 12px;
-          background-color: var(--backgroundTertiary);
-          border-radius: var(--commonRadius);
-          margin-top: 24px;
-          margin-bottom: 16px;
+
+        img {
+          @media(max-width: 860px){
+            height: 15rem;
+          }
         }
+
         button {
           width: 100%;
-          display: block;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: .5rem;
           border: 0;
-          padding: 12px;
+          padding: 6px 12px;
           border-radius: var(--commonRadius);
-          background-color: var(--colorPrimary);
+          background-color: var(--colorSecondary);
           color: var(--textSecondaryColor);
         }
       }
     }
+
     .footerArea {
       grid-area: footerArea;
       background-color: var(--backgroundQuarternary);
       border-radius: var(--commonRadius);
       padding: 8px;
+
       p {
         font-size: 12px;
         text-align: center;
+
         a {
           text-decoration: none;
           color: var(--colorPrimary);

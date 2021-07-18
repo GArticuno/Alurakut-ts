@@ -37,7 +37,7 @@ export default class Mydocument extends Document {
         <Head>
           <meta name="description" content="Social media for developers." />
           <link rel="preconnect" href="https://fonts.gstatic.com"/>
-          <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet"/>
+          <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto&family=Ubuntu:wght@400;700&display=swap" rel="stylesheet"/>
           <link rel="icon" href="/favicon.ico" />
 
           <link rel='apple-touch-icon' href='/icons/icon-192x192.png' />

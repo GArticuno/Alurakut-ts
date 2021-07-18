@@ -1,5 +1,3 @@
-import { AnchorHTMLAttributes, ReactNode } from "react"
-
 export type User = {
   id: number,
   name: string,
@@ -10,20 +8,4 @@ export type User = {
   html_url: string,
   bio: string
 
-}
-
-export type Community = {
-  id: string,
-  title: string,
-  image: string
-}
-
-export type LinkProps = {
-  children: ReactNode,
-  href: string,
-  props?: AnchorHTMLAttributes<HTMLAnchorElement>
-}
-
-export type AlurakutMenuProps = {
-  githubUser: string
 }
