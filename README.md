@@ -1,12 +1,12 @@
-# Letmeask
+# Alurakut
 
 <p align="center">
-  <img src="https://github.com/GArticuno/letmeask-NLW/blob/main/src/assets/images/logo.svg" />
+  <img src="https://alurakut.vercel.app/logo.svg" />
 </p>
 
 ---
 
-![Home](https://github.com/GArticuno/letmeask-NLW/blob/main/src/assets/backgrounds/Home.png)
+![UserScreen](https://github.com/GArticuno/Alurakut-ts/blob/main/src/assets/backgrounds/User.png)
 
 ## About
 Tire suas dúvidas sobre qualquer assunto em tempo-real.
@@ -21,14 +21,9 @@ Tire suas dúvidas sobre qualquer assunto em tempo-real.
 - [Styled-components](https://styled-components.com/)
 - [TypeScript](https://www.typescriptlang.org/)
 
-## Screens
 
-### Login
+## Login Screen
 
-![LoginScreen](https://github.com/GArticuno/letmeask-NLW/blob/main/src/assets/backgrounds/Login.png)
-
-### User
-
-![UserScreen](https://github.com/GArticuno/letmeask-NLW/blob/main/src/assets/backgrounds/User.png)
+![LoginScreen](https://github.com/GArticuno/Alurakut-ts/blob/main/src/assets/backgrounds/Login.png)
 
 
