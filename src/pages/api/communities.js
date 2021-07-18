@@ -1,7 +1,7 @@
 import { SiteClient } from "datocms-client";
 
 export default async function recieveCommunities(request, response){
-  const TOKEN = process.env.TOKEN;
+  const TOKEN = process.env.NEXT_PUBLIC_TOKEN;
   
   const client = new SiteClient(TOKEN);
 
