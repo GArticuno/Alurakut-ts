@@ -9,7 +9,7 @@
 ![UserScreen](https://github.com/GArticuno/Alurakut-ts/blob/main/src/assets/backgrounds/User.png)
 
 ## About
-Tire suas dúvidas sobre qualquer assunto em tempo-real.
+ Social media for developers.
 
 ## Technologies
 - [Axios](https://axios-http.com/)
